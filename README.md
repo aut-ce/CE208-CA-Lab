@@ -9,3 +9,5 @@ In this session we create 4-bit-adder based on following diagrams:
 and then create a decoder and multiplexer with following diagrams:
 ![decoder](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/decoder.bmp)
 ![multiplexer](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/multiplexer.bmp)
+and at the end we try to build ALU based on following top-level design:
+![alu-1](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/alu-1.bmp)
