@@ -12,6 +12,9 @@ and then create a decoder and multiplexer with following diagrams:
 and at the end we try to build ALU based on following top-level design:
 ![alu-1](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/alu-1.bmp)
 ### Session 3
+Before starting, see mealy and moore machines in following diagrams:
+![mealy](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/mealy.bmp)
+![moore](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/moore.bmp)
 In this session we create ripple counter with T-FlipFlop with following diagram:
 ![rp-counter](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/rp-counter.bmp)
 then we create sequence decoder for `1001` with following state machine:
