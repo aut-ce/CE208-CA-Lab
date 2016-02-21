@@ -14,3 +14,5 @@ and at the end we try to build ALU based on following top-level design:
 ### Session 3
 In this session we create ripple counter with T-FlipFlop with following diagram:
 ![rp-counter](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/rp-counter.bmp)
+then we create sequence decoder for `1001` with following state machine:
+![1001-decoder](http://www.googledrive.com/host/0B33KzMHyLoH2eVNHWFJZdmthOVk/1001-decoder.png)
