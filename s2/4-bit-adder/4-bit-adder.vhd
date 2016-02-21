@@ -8,7 +8,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity four_bit_adder is
-	generic(N : natural := 4);
+	generic (N : natural := 4);
 	port (a, b : in std_logic_vector(N - 1 downto 0);
 		c_in : in std_logic;
 		sum : out std_logic_vector(N - 1 downto 0);
