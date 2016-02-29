@@ -13,7 +13,7 @@ entity moore is
 end entity moore;
 
 architecture arch_moore of moore is
-	type state is (S0, S1, S2, S3);
+	type state is (S0, S1, S2, S3, S4);
 	signal current : state := S0;
 begin
 	process (clk, reset)
@@ -45,10 +45,16 @@ begin
 					if d = '0' then
 						current <= S2;
 					else
+						current <= S4;
+					end if;
+				when S4 =>
+					if d = '0' then
 						current <= S1;
+					else
+						current <= S2;
 					end if;
 			end case;
 		end if;
 	end process;
-	z <= '1' when current = S3 else '0';
+	z <= '1' when current = S4 else '0';
 end architecture arch_moore;
