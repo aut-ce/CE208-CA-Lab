@@ -50,5 +50,5 @@ begin
 			end case;
 		end if;
 	end process;
-	z <= '1' when current = S3 else '0';
+	z <= '1' when current = S3 and d = '1' else '0';
 end architecture arch_mealy;
