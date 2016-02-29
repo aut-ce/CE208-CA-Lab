@@ -28,21 +28,25 @@ begin
 						current <= S0;
 					else
 						current <= S1;
+					end if;
 				when S1 =>
 					if d = '0' then
 						current <= S2;
 					else
 						current <= S0;
+					end if;
 				when S2 =>
 					if d = '1' then
 						current <= S3;
 					else
 						current <= S0;
+					end if;
 				when S3 =>
 					if d = '0' then
 						current <= S2;
 					else
 						current <= S1;
+					end if;
 			end case;
 		end if;
 	end process;
