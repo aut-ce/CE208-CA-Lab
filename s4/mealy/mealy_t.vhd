@@ -2,7 +2,7 @@
 -- Author:        Parham Alvani (parham.alvani@gmail.com)
 --
 -- Create Date:   22-02-2016
--- Module Name:   counter_t.vhd
+-- Module Name:   mealy_t.vhd
 --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
