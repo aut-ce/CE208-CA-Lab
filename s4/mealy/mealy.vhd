@@ -24,13 +24,25 @@ begin
 		if clk = '1' and clk'event then
 			case current is
 				when S0 =>
-					current <= S0 when d = '0' else S1;
+					if d = '0' then
+						current <= S0;
+					else
+						current <= S1;
 				when S1 =>
-					current <= S2 when d = '0' else S0;
+					if d = '0' then
+						current <= S2;
+					else
+						current <= S0;
 				when S2 =>
-					current <= S3 when d = '1' else S0;
+					if d = '1' then
+						current <= S3;
+					else
+						current <= S0;
 				when S3 =>
-					current <= S2 when d = '0' else S1;
+					if d = '0' then
+						current <= S2;
+					else
+						current <= S1;
 			end case;
 		end if;
 	end process;
