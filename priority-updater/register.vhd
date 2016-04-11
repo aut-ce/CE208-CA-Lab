@@ -8,7 +8,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity n_register is
-	generic (N : integer := 8);
+	generic (N : integer := 4);
 	port (d : in std_logic_vector(N - 1 downto 0);
 		clk, s_sync, r_sync : in std_logic;
 		s_async, r_async : in std_logic;
