@@ -9,7 +9,8 @@ use IEEE.std_logic_1164.all;
 
 entity datapath is
 	port (g, e, l : out std_logic;
-		sel_1, sel_2 : in std_logic;
+		sel_1 : in std_logic;
+		sel_2 : in std_logic_vector(1 downto 0);
 		counter_reset : in std_logic;
 		rwbar : in std_logic;
 		input_address : in std_logic_vector(3 downto 0));
@@ -63,6 +64,6 @@ begin
 	fa : fulladdr port map (value, "0001", '0', fulladdr_data_in, c_out);
 	cn : counter generic map(4) port map(counter_address, clk, counter_reset);
 
-	data_in <= (others => '0') when sel_2 = '0' else fulladdr_data_in;
+	data_in <= counter_address when sel_2 = "11" else fulladdr_data_in when sel_2 = "00" else (others => '0') ;
 	address <= counter_address when sel_1 = '1' else input_address;
 end architecture rtl;
