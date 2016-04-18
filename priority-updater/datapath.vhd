@@ -9,7 +9,10 @@ use IEEE.std_logic_1164.all;
 
 entity datapath is
 	port (g, e, l : out std_logic;
-		sel : in std_logic);
+		sel_1, sel_2 : in std_logic;
+		counter_reset : in std_logic;
+		rwbar : in std_logic;
+		input_address : in std_logic_vector(3 downto 0));
 end entity;
 
 architecture rtl of datapath is
@@ -35,20 +38,31 @@ architecture rtl of datapath is
 			c_in : in std_logic;
 			sum, c_out : out std_logic(3 downto 0));
 	end fulladdr;
+	component counter
+		generic (N : integer := 4);
+		port (number : out std_logic_vector (N - 1 downto 0) := (others => '0');
+			clk, r : in std_logic);
+	end component;
 	for all:memory use entity work.memory;
 	for all:n_register use entity work.n_register;
 	for all:compare use entity work.compare;
 	for all:fulladdr use entity work.fulladdr;
+	for all:counter use entity work.counter;
 
 	signal value : std_logic_vector(3 downto 0);
 	signal p_v : std_logic_vector(3 downto 0);
-	signal mux1 : std_logic_vector(3 downto 0);
-	signal mux0 : std_logic_vector(3 downto 0);
-	signal new_data : std_logic_vector(3 downto 0);
+	signal fulladdr_data_in : std_logic_vector(3 downto 0);
+	signal data_in : std_logic_vector(3 downto 0);
+	signal c_out : std_logic;
+	signal address : std_logic_vector(3 downto 0);
+	signal counter_address : std_logic_vector(3 downto 0);
 begin
-		mem : memory port map(address, data_in, value, clk, rwbar);
-		priority_register : generic map (4) n_register port map(values, clk, open, open, open, open, p_v);
-		compare : port map(value, p_v, g, e, l);
-		fa : fulladr port map (value, "0001", open, mux1, open);
-		new_data <= mux0 when sel = '0' else mux 1;
-end architecture rtd;
+	mem : memory port map(address, data_in, value, clk, rwbar);
+	priority_register : n_register generic map(4) port map(values, clk, '0', '0', '0', '0', p_v);
+	cmp : compare port map(value, p_v, g, e, l);
+	fa : fulladdr port map (value, "0001", '0', fulladdr_data_in, c_out);
+	cn : counter generic map(4) port map(counter_address, clk, counter_reset);
+
+	data_in <= (others => '0') when sel_2 = '0' else fulladdr_data_in;
+	address <= counter_address when sel_1 = '1' else input_address;
+end architecture rtl;
