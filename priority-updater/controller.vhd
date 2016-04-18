@@ -11,11 +11,13 @@ entity controller is
 		counter_reset : out std_logic;
 		load : out std_logic;
 		counter_done : in std_logic;
+		free: in std_logic;
+		done: out std_logic;
 		rwbar : out std_logic);
 end entity;
 
 architecture rtl of controller is
-	type state is (RESET0, RESET1, S1, S2, S3, S4);
+	type state is (RESET0, RESET1, WAITING, S1, S2, S3, S4);
 	signal current_state : state;
 	signal next_state : state;
 begin
@@ -52,9 +54,17 @@ begin
 				rwbar <= '0';
 			end if;
 			if counter_done = '1' then
-				next_state <= S1;
+				done <= '1';
+				next_state <= WAITING;
 			else
 				next_state <= S4;
+			end if;
+		elsif current_state = WAITING then
+			if free = '1' then
+				done <= '0';
+				next_state = S1;
+			else
+				next_state = WAITING;
 			end if;
 		elsif current_state = RESET0 then
 			counter_reset <= '1';
@@ -63,7 +73,7 @@ begin
 			sel_2 <= "11";
 		elsif current_state = RESET1 then
 			if counter_done = '1' then
-				next_state <= S1;
+				next_state <= WAITING;
 			else
 				next_state <= RESET1;
 			end if;
