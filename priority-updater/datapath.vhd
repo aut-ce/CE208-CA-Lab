@@ -9,6 +9,7 @@ use IEEE.std_logic_1164.all;
 
 entity datapath is
 	port (g, e, l : out std_logic;
+		clk : in std_logic;
 		sel_1 : in std_logic;
 		sel_2 : in std_logic_vector(1 downto 0);
 		counter_reset : in std_logic;

@@ -7,6 +7,7 @@
 
 entity controller is
 	port (g, e, l : in std_logic;
+		clk : in std_logic;
 		sel_1, sel_2 : out std_logic;
 		counter_reset : out std_logic;
 		load : out std_logic;
