@@ -31,16 +31,17 @@ architecture rtl of datapath is
 		port (d : in std_logic_vector(N - 1 downto 0);
 			clk, load : in std_logic;
 			q : out std_logic_vector(N - 1 downto 0));
-	end component n_register;
+	end component;
 	component compare
 		port (n1, n2 : in std_logic_vector(3 downto 0);
 			g, e, l : out std_logic);
-	end compare;
+	end component;
 	component fulladdr
-		port (a, b : in std_logic_vector (3 downto 0);
+		port (a, b : in std_logic_vector(3 downto 0);
 			c_in : in std_logic;
-			sum, c_out : out std_logic(3 downto 0));
-	end fulladdr;
+			c_out : out std_logic;
+			sum : out std_logic_vector(3 downto 0));
+	end component;
 	component counter
 		generic (N : integer := 4);
 		port (number : out std_logic_vector (N - 1 downto 0) := (others => '0');
@@ -61,14 +62,14 @@ architecture rtl of datapath is
 	signal counter_address : std_logic_vector(4 downto 0);
 begin
 	mem : memory port map(address, data_in, value, clk, rwbar);
-	priority_register : n_register generic map(4) port map(values, clk, load, p_v);
+	priority_register : n_register generic map(4) port map(value, clk, load, p_v);
 	cmp : compare port map(value, p_v, g, e, l);
-	fa : fulladdr port map (value, "0001", '0', fulladdr_data_in, c_out);
+	fa : fulladdr port map (value, "0001", '0', c_out, fulladdr_data_in);
 	cn : counter generic map(5) port map(counter_address, clk, counter_reset);
 
 	data_in <= counter_address(3 downto 0) when sel_2 = "11"
 		   else fulladdr_data_in when sel_2 = "00" else (others => '0') ;
 	address <= counter_address(3 downto 0) when sel_1 = '1' else input_address;
 
-	counter_done <= '1' when counter_address(4) = '1' then '0';
+	counter_done <= '1' when counter_address(4) = '1' else '0';
 end architecture rtl;

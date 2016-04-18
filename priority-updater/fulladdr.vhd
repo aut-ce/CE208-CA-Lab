@@ -6,12 +6,13 @@
 --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
-use IEEE.std_logic_unsgined.all;
+use IEEE.std_logic_unsigned.all;
 
 entity fulladdr is
-	port(a, b : in std_logic_vector (3 downto 0);
+	port(a, b : in std_logic_vector(3 downto 0);
 	     	c_in : in std_logic;
-		sum, c_out : out std_logic(3 downto 0));
+		c_out : out std_logic;
+		sum : out std_logic_vector(3 downto 0));
 end entity fulladdr;
 
 architecture rtl of fulladdr is

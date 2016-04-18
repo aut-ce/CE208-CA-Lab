@@ -4,11 +4,14 @@
 -- Create Date:   18-04-2016
 -- Module Name:   controller.vhd
 --------------------------------------------------------------------------------
+library IEEE;
+use IEEE.std_logic_1164.all;
 
 entity controller is
 	port (g, e, l : in std_logic;
 		clk : in std_logic;
-		sel_1, sel_2 : out std_logic;
+		sel_1 : out std_logic;
+		sel_2 : out std_logic_vector(1 downto 0);
 		counter_reset : out std_logic;
 		load : out std_logic;
 		counter_done : in std_logic;
@@ -45,13 +48,13 @@ begin
 			load <= '0';
 			next_state <= S4;
 		elsif current_state = S4 then
-			if    e and (not g) and (not l) then
-				sel_2 <= '10';
+			if e = '1' and g = '0' and l = '0' then
+				sel_2 <= "10";
 				rwbar <= '0';
-			elsif (not e) and g and (not l) then
+			elsif e = '1' and g = '1' and l = '0' then
 				rwbar <= '1';
-			elsif (not e) and (not g) and l then
-				sel_2 <= '00';
+			elsif e = '0' and g = '0' and l = '1' then
+				sel_2 <= "00";
 				rwbar <= '0';
 			end if;
 			if counter_done = '1' then
@@ -63,9 +66,9 @@ begin
 		elsif current_state = WAITING then
 			if free = '1' then
 				done <= '0';
-				next_state = S1;
+				next_state <= S1;
 			else
-				next_state = WAITING;
+				next_state <= WAITING;
 			end if;
 		elsif current_state = RESET0 then
 			counter_reset <= '1';

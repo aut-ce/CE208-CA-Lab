@@ -8,8 +8,8 @@ end entity compare;
 
 architecture rtl of compare is
 begin
-	g <= '1' when n1 > n2 else '0'
-	l <= '1' when n1 < n2 else '0'
-	e <= '1' when n1 = n2 else '0'
+	g <= '1' when n1 > n2 else '0';
+	l <= '1' when n1 < n2 else '0';
+	e <= '1' when n1 = n2 else '0';
 end rtl;
 	
