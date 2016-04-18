@@ -14,6 +14,7 @@ entity datapath is
 		counter_reset : in std_logic;
 		rwbar : in std_logic;
 		load : in std_logic;
+		counter_done : out std_logic;
 		input_address : in std_logic_vector(3 downto 0));
 end entity;
 
@@ -56,14 +57,17 @@ architecture rtl of datapath is
 	signal data_in : std_logic_vector(3 downto 0);
 	signal c_out : std_logic;
 	signal address : std_logic_vector(3 downto 0);
-	signal counter_address : std_logic_vector(3 downto 0);
+	signal counter_address : std_logic_vector(4 downto 0);
 begin
 	mem : memory port map(address, data_in, value, clk, rwbar);
 	priority_register : n_register generic map(4) port map(values, clk, load, p_v);
 	cmp : compare port map(value, p_v, g, e, l);
 	fa : fulladdr port map (value, "0001", '0', fulladdr_data_in, c_out);
-	cn : counter generic map(4) port map(counter_address, clk, counter_reset);
+	cn : counter generic map(5) port map(counter_address, clk, counter_reset);
 
-	data_in <= counter_address when sel_2 = "11" else fulladdr_data_in when sel_2 = "00" else (others => '0') ;
-	address <= counter_address when sel_1 = '1' else input_address;
+	data_in <= counter_address(3 downto 0) when sel_2 = "11"
+		   else fulladdr_data_in when sel_2 = "00" else (others => '0') ;
+	address <= counter_address(3 downto 0) when sel_1 = '1' else input_address;
+
+	counter_done <= '1' when counter_address(4) = '1' then '0';
 end architecture rtl;
