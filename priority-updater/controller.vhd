@@ -25,6 +25,7 @@ architecture rtl of controller is
 	signal current_state : state;
 	signal next_state : state;
 begin
+	-- next
 	process (clk)
 	begin
 		if clk'event and clk = '1' then
@@ -32,6 +33,7 @@ begin
 		end if;
 	end process;
 
+	-- next state + outputs :D
 	process (current_state)
 	begin
 		if current_state = S1 then
