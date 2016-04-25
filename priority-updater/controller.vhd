@@ -12,9 +12,9 @@ entity controller is
 		clk, reset : in std_logic;
 		sel_1 : out std_logic;
 		sel_2 : out std_logic_vector(1 downto 0);
-		counter_reset : out std_logic;
+		counter_reset, counter_enable : out std_logic;
 		load : out std_logic;
-		counter_done, counter_enable : in std_logic;
+		counter_done : in std_logic;
 		free: in std_logic;
 		done: out std_logic;
 		rwbar : out std_logic);
