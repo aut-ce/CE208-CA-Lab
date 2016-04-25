@@ -9,12 +9,12 @@ use IEEE.std_logic_1164.all;
 
 entity controller is
 	port (g, e, l : in std_logic;
-		clk : in std_logic;
+		clk, reset : in std_logic;
 		sel_1 : out std_logic;
 		sel_2 : out std_logic_vector(1 downto 0);
 		counter_reset : out std_logic;
 		load : out std_logic;
-		counter_done : in std_logic;
+		counter_done, counter_enable : in std_logic;
 		free: in std_logic;
 		done: out std_logic;
 		rwbar : out std_logic);
@@ -28,7 +28,9 @@ begin
 	-- next
 	process (clk)
 	begin
-		if clk'event and clk = '1' then
+		if reset = '1' then
+			current_state <= REST0;
+		elsif clk'event and clk = '1' then
 			current_state <= next_state;
 		end if;
 	end process;
@@ -78,6 +80,7 @@ begin
 			sel_1 <= '1';
 			sel_2 <= "11";
 		elsif current_state = RESET1 then
+			counter_reset <= '0';
 			if counter_done = '1' then
 				next_state <= WAITING;
 			else
