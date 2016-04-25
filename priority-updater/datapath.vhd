@@ -12,7 +12,7 @@ entity datapath is
 		clk : in std_logic;
 		sel_1 : in std_logic;
 		sel_2 : in std_logic_vector(1 downto 0);
-		counter_reset : in std_logic;
+		counter_reset, counter_enable : in std_logic;
 		rwbar : in std_logic;
 		load : in std_logic;
 		counter_done : out std_logic;
@@ -45,7 +45,7 @@ architecture rtl of datapath is
 	component counter
 		generic (N : integer := 4);
 		port (number : out std_logic_vector (N - 1 downto 0) := (others => '0');
-			clk, r : in std_logic);
+			clk, r, en : in std_logic);
 	end component;
 	for all:memory use entity work.memory;
 	for all:n_register use entity work.n_register;
@@ -65,7 +65,7 @@ begin
 	priority_register : n_register generic map(4) port map(value, clk, load, p_v);
 	cmp : compare port map(value, p_v, g, e, l);
 	fa : fulladdr port map (value, "0001", '0', c_out, fulladdr_data_in);
-	cn : counter generic map(5) port map(counter_address, clk, counter_reset);
+	cn : counter generic map(5) port map(counter_address, clk, counter_reset, counter_enable);
 
 	data_in <= counter_address(3 downto 0) when sel_2 = "11"
 		   else fulladdr_data_in when sel_2 = "00" else (others => '0') ;
