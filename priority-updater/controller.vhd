@@ -55,7 +55,7 @@ begin
 			if e = '1' and g = '0' and l = '0' then
 				sel_2 <= "10";
 				rwbar <= '0';
-			elsif e = '1' and g = '1' and l = '0' then
+			elsif e = '0' and g = '1' and l = '0' then
 				rwbar <= '1';
 			elsif e = '0' and g = '0' and l = '1' then
 				sel_2 <= "00";
