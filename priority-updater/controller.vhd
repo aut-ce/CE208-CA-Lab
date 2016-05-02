@@ -26,7 +26,7 @@ architecture rtl of controller is
 	signal next_state : state;
 begin
 	-- next
-	process (clk)
+	process (clk, reset)
 	begin
 		if reset = '1' then
 			current_state <= RESET0;
@@ -36,7 +36,7 @@ begin
 	end process;
 
 	-- next state + outputs :D
-	process (current_state)
+	process (current_state, counter_done, g, e, l, reset, free)
 	begin
 		if current_state = S1 then
 			sel_1 <= '0';
@@ -80,10 +80,14 @@ begin
 			sel_1 <= '1';
 			sel_2 <= "11";
 		elsif current_state = RESET1 then
+			counter_enable <= '1';
 			counter_reset <= '0';
 			if counter_done = '1' then
+				rwbar <= '1';
+				counter_enable <= '0';
 				next_state <= WAITING;
 			else
+				rwbar <= '0';
 				next_state <= RESET1;
 			end if;
 		end if;
