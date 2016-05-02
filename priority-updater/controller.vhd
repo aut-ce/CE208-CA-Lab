@@ -76,6 +76,7 @@ begin
 				done <= '0';
 				next_state <= S1;
 			else
+				done <= '0';
 				next_state <= WAITING;
 			end if;
 		elsif current_state = RESET0 then

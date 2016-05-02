@@ -27,6 +27,6 @@ begin
 	reset <= '1', '0' after 10 ns;
 	clk <= not clk after 50 ns;
 	free <= '1' after 500 ns;
-	free <= '0' when done = '1';
+	-- free <= '0' when done = '1';
 	address <= "0101";
 end architecture;
