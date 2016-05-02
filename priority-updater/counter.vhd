@@ -22,8 +22,7 @@ begin
 		if r = '1' then
 			number <= (others => '0');
 			old_number := (others => '0');
-		end if;
-		if clk = '1' and clk'event en = '1' then
+		elsif clk = '1' and clk'event en = '1' then
 			number <= old_number;
 			old_number := old_number + (0 => '1');
 		end if;
