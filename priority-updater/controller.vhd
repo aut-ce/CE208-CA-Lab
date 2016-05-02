@@ -21,7 +21,7 @@ entity controller is
 end entity;
 
 architecture rtl of controller is
-	type state is (RESET0, RESET1, WAITING, S1, S2, S3, S4);
+	type state is (RESET0, RESET1, WAITING, S1, S2, S3, S4, S5);
 	signal current_state : state;
 	signal next_state : state;
 begin
@@ -61,11 +61,15 @@ begin
 				sel_2 <= "00";
 				rwbar <= '0';
 			end if;
-			if counter_done = '1' then
+			next_state <= S5;
+		elsif current_state = S5 then
+			rwbar <= '1';
+			if counter_done then
 				done <= '1';
 				next_state <= WAITING;
 			else
-				next_state <= S4;
+				en_counter <= '1';
+				next_state <= S3;
 			end if;
 		elsif current_state = WAITING then
 			if free = '1' then
