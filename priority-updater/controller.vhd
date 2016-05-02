@@ -29,7 +29,7 @@ begin
 	process (clk)
 	begin
 		if reset = '1' then
-			current_state <= REST0;
+			current_state <= RESET0;
 		elsif clk'event and clk = '1' then
 			current_state <= next_state;
 		end if;
