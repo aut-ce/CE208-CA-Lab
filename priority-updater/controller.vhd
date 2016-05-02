@@ -64,11 +64,11 @@ begin
 			next_state <= S5;
 		elsif current_state = S5 then
 			rwbar <= '1';
-			if counter_done then
+			if counter_done = '1' then
 				done <= '1';
 				next_state <= WAITING;
 			else
-				en_counter <= '1';
+				counter_enable <= '1';
 				next_state <= S3;
 			end if;
 		elsif current_state = WAITING then
