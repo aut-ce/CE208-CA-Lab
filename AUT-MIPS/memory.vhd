@@ -32,7 +32,9 @@ begin
 					memory (to_integer(unsigned(address)), i) := data_in (i);
 				end loop;
 			else
-				data_out <= (others => 0);
+				for i in data_out'range loop
+					data_out(i) <= '0';
+				end loop;
 			end if;
 		end if;
 	end process;
