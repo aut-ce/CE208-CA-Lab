@@ -10,7 +10,7 @@ use IEEE.std_logic_unsigned.all;
 
 
 entity register_N is
-	generic (N : integer := 16)
+	generic (N : integer := 16);
 	port (reset, clk, load  : in std_logic;
 		ldata : in std_logic_vector (N - 1 downto 0);
 		O : out std_logic_vector (N - 1 downto 0));
