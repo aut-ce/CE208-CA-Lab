@@ -23,7 +23,7 @@ begin
 	process(clk)
 	begin
 		if clk'event and clk ='1' then
-			if clear = '1' then
+			if reset = '1' then
 				storage <= (others => '0');
 			elsif load = '1' then
 				storage <= ldata;
@@ -31,5 +31,3 @@ begin
 		end if;
 	end process;
 end rtl;
-
-
