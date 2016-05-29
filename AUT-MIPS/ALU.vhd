@@ -10,12 +10,11 @@ use IEEE.std_logic_unsigned.all;
 use IEEE.numeric_std.all;
 
 entity ALU is
-    Port ( A : in  std_logic_vector (15 downto 0);
-           B : in  std_logic_vector (15 downto 0);
-           OP : in  std_logic_vector (3 downto 0);
-           func : in  std_logic_vector (2 downto 0);
-           result : out  std_logic_vector (15 downto 0);
-           cond : out  std_logic);
+    port (A, B : in  std_logic_vector (15 downto 0);
+		OP : in  std_logic_vector (3 downto 0);
+		func : in  std_logic_vector (2 downto 0);
+		result : out  std_logic_vector (15 downto 0);
+		cond : out  std_logic);
 end ALU;
 
 architecture rtl of ALU is
