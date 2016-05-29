@@ -1,33 +1,5 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    14:58:49 12/01/2015 
--- Design Name: 
--- Module Name:    control - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use IEEE.std_logic_1164.all;
 
 entity control is
     Port ( clk : in  STD_LOGIC;
@@ -50,32 +22,37 @@ entity control is
 end control;
 
 architecture Behavioral of control is
-type state is (S0,S1,S2,S3, R_type, R_type1, I_type,SI1,SI11,SI2,SI21,SI22,SI221,SI3, SI31,J_type);
-SIGNAL present_state,next_state: state:= S0;
+	type state is (S0,S1,S2,S3, R_type, R_type1, I_type,SI1,SI11,SI2,SI21,SI22,SI221,SI3, SI31,J_type);
+	signal present_state, next_state : state := S0;
 begin
-	P : process(clk)
-		begin
-		if clk = '1' then
-		---wait until rising_edge(clk);
-		if present_state = S0 then 
+	process (clk)
+		if clk'event and clk = '1' then
+			current_state <= next_state;
+		end if;
+	end process;
+
+	process(current_state)
+	begin
+		case present_state is
+			when S0 =>
 				PCen <= '0';
 				PCwrite <= '0';
-				IorD <= "00";---
+				IorD <= "00";
 				memread <= '1';
 				memwrite <= '0';
-				memtoreg <= "00"; ---
+				memtoreg <= "00";
 				IRe <= '0';
-				PCscr <= "01"; ---
+				PCscr <= "01";
 				ALUop <= "0000";
-				ALUsrcB <= "01"; ---
-				ALUsrcA <= "00"; ---
+				ALUsrcB <= "01";
+				ALUsrcA <= "00";
 				AluFunc <= "00";
-				regdest <= "00"; ---
+				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S1;
-				present_state <= S1;
-		end if;
-		if present_state = S1 then 
+				
+				next_state <= S1;
+
+			when S1 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -90,10 +67,9 @@ begin
 				AluFunc <= "00";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S2;
-				present_state <= S2;
-		end if;
-				if present_state = S2 then 
+				
+				next_state <= S2;
+			when S2 =>
 				PCen <= '1';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -108,8 +84,8 @@ begin
 				AluFunc <= "00";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S2;
-				present_state <= S3;
+
+				next_state <= S2;
 		end if;
 		if present_state = S3 then 
 				PCen <= '0';
