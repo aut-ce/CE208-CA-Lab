@@ -1,3 +1,9 @@
+--------------------------------------------------------------------------------
+-- Author:        Parham Alvani (parham.alvani@gmail.com)
+--
+-- Create Date:   30-05-2016
+-- Module Name:   control.vhd
+--------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
 
