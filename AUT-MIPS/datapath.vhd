@@ -8,8 +8,8 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity datapath is
-	port(clk: in std_logic);
-end entity datapath;
+	port (clk: in std_logic);
+end entity;
 
 architecture structural of datapath is
 	component ALU is
