@@ -26,6 +26,7 @@ architecture rtl of control is
 	signal present_state, next_state : state := S0;
 begin
 	process (clk)
+	begin
 		if clk'event and clk = '1' then
 			current_state <= next_state;
 		end if;
