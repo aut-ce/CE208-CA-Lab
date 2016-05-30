@@ -14,14 +14,14 @@ end entity;
 
 architecture rtl of regfile is
 	type mem is array (natural range <>) of std_logic_vector (M - 1 downto 0);
+	constant memsize : integer := 2 ** N;
+	signal memory : mem (0 to memsize - 1) := (others => (others => '0'));
 begin	
 	process (clk)
-		constant memsize : integer := 2 ** N;
-		variable memory : mem (0 to memsize - 1);
-	begin
+			begin
 		if clk'event and clk = '1' then
 			if write = '1' then
-				memory(to_integer(unsigned(writeaddr))) := data;
+				memory(to_integer(unsigned(writeaddr))) <= data;
 			else
 				O1 <= memory(to_integer(unsigned(readaddr1)));
 				O2 <= memory(to_integer(unsigned(readaddr2)));
