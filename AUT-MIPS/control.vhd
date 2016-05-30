@@ -22,8 +22,8 @@ entity control is
 end control;
 
 architecture rtl of control is
-	type state is (S0, S1, S2, S3, SR0, SR1, SI0, SI10, SI11, SI20, SI21, SI220, SI221, SI30, SI31, SJ0);
-	signal present_state, next_state : state := S0;
+	type state is (S0, S1, S2, S3, SR0, SR1, SI0, SI10, SI11, SI20, SI210, SI220, SI221, SI30, SI31, SJ0);
+	signal current_state, next_state : state := S0;
 begin
 	process (clk)
 	begin
@@ -34,7 +34,7 @@ begin
 
 	process(current_state)
 	begin
-		case present_state is
+		case current_state is
 			when S0 =>
 				PCen <= '0';
 				PCwrite <= '0';
