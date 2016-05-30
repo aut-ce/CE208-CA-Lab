@@ -2,23 +2,23 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity control is
-    Port ( clk : in  STD_LOGIC;
-           cond : in  STD_LOGIC;
-           op : in  STD_LOGIC_VECTOR (3 downto 0);
-           PCen : out  STD_LOGIC;
-           PCwrite : out  STD_LOGIC;
-           IorD : out  STD_LOGIC_vector (1 downto 0);
-           memread : out  STD_LOGIC;
-           memwrite : out  STD_LOGIC;
-           memtoreg : out  STD_LOGIC_VECTOR (1 downto 0);
-           IRe : out  STD_LOGIC;
-           PCscr : out  STD_LOGIC_VECTOR (1 downto 0);
-           ALUop : out  STD_LOGIC_VECTOR (3 downto 0);
-           ALUsrcB : out  STD_LOGIC_VECTOR (1 downto 0);
-           ALUsrcA : out  STD_LOGIC_VECTOR (1 downto 0);
-           AluFunc : out  STD_LOGIC_VECTOR (1 downto 0);
-           regdest : out  STD_LOGIC_VECTOR (1 downto 0);
-           regwrite : out  STD_LOGIC);
+	port (clk : in std_logic;
+		cond : in std_logic;
+		op : in std_logic_vector (3 downto 0);
+		PCen : out std_logic;
+		PCwrite : out std_logic;
+		IorD : out std_logic_vector (1 downto 0);
+		memread : out std_logic;
+		memwrite : out std_logic;
+		memtoreg : out std_logic_vector (1 downto 0);
+		IRe : out std_logic;
+		PCscr : out std_logic_vector (1 downto 0);
+           	ALUop : out std_logic_vector (3 downto 0);
+           	ALUsrcB : out std_logic_vector (1 downto 0);
+           	ALUsrcA : out std_logic_vector (1 downto 0);
+           	AluFunc : out std_logic_vector (1 downto 0);
+           	regdest : out std_logic_vector (1 downto 0);
+           	regwrite : out std_logic);
 end control;
 
 architecture rtl of control is
