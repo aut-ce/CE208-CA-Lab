@@ -21,7 +21,7 @@ architecture rtl of ALU is
 	Signal tResult : std_logic_vector (15 downto 0);
 	Signal tCond :   std_logic;
 begin
-	process(A,B,OP,func)
+	process(A, B, OP, func)
 	begin
 		case OP is
 			when "0000" =>
