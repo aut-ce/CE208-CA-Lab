@@ -21,24 +21,24 @@ architecture structural of datapath is
 			cond : out std_logic);
 	end component;
 
-	component control is
-	    Port ( clk : in  STD_LOGIC;
-		   cond : in  STD_LOGIC;
-		   op : in  STD_LOGIC_VECTOR (3 downto 0);
-		   PCen : out  STD_LOGIC;
-		   PCwrite : out  STD_LOGIC;
-		   IorD : out  STD_LOGIC_VECTOR (1 downto 0);
-		   memread : out  STD_LOGIC;
-		   memwrite : out  STD_LOGIC;
-		   memtoreg : out  STD_LOGIC_VECTOR (1 downto 0);
-		   IRe : out  STD_LOGIC;
-		   PCscr : out  STD_LOGIC_VECTOR (1 downto 0);
-		   ALUop : out  STD_LOGIC_VECTOR (3 downto 0);
-		   ALUsrcB : out  STD_LOGIC_VECTOR (1 downto 0);
-		   ALUsrcA : out  STD_LOGIC_VECTOR (1 downto 0);
-		   AluFunc : out  STD_LOGIC_VECTOR (1 downto 0);
-		   regdest : out  STD_LOGIC_VECTOR (1 downto 0);
-		   regwrite : out  STD_LOGIC);
+	component control
+		port (clk : in std_logic;
+			cond : in std_logic;
+			op : in std_logic_vector (3 downto 0);
+			PCen : out std_logic;
+			PCwrite : out std_logic;
+			IorD : out std_logic_vector (1 downto 0);
+			memread : out std_logic;
+			memwrite : out std_logic;
+			memtoreg : out std_logic_vector (1 downto 0);
+			IRe : out std_logic;
+			PCscr : out std_logic_vector (1 downto 0);
+        	   	ALUop : out std_logic_vector (3 downto 0);
+        	   	ALUsrcB : out std_logic_vector (1 downto 0);
+        	   	ALUsrcA : out std_logic_vector (1 downto 0);
+        	   	AluFunc : out std_logic_vector (1 downto 0);
+        	   	regdest : out std_logic_vector (1 downto 0);
+        	   	regwrite : out std_logic);
 	end component;
 
 	component memory
@@ -76,6 +76,8 @@ architecture structural of datapath is
 	for all:register_N use entity work.register_N;
 	for all:memory use entity work.memory;
 	for all:regfile use entity work.regfile;
+	for all:control use entity work.control;
+	for all:ALU use entity work.ALU;
 
 	signal tmp1,tmp2,tmp3,tmp4,tmp5, tmp6 :std_logic_vector(15 downto 0);
 
