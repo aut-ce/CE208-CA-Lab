@@ -92,7 +92,7 @@ begin
 				regdest <= "00";
 				regwrite <= '0';
 
-				next_state <= S2;
+				next_state <= S3;
 			when S3 =>
 				PCen <= '0';
 				PCwrite <= '0';
