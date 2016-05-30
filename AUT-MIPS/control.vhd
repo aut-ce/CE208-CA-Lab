@@ -21,8 +21,8 @@ entity control is
            regwrite : out  STD_LOGIC);
 end control;
 
-architecture Behavioral of control is
-	type state is (S0,S1,S2,S3, R_type, R_type1, I_type,SI1,SI11,SI2,SI21,SI22,SI221,SI3, SI31,J_type);
+architecture rtl of control is
+	type state is (S0, S1, S2, S3, SR0, SR1, SI0, SI10, SI11, SI20, SI21, SI220, SI221, SI30, SI31, SJ0);
 	signal present_state, next_state : state := S0;
 begin
 	process (clk)
@@ -86,8 +86,7 @@ begin
 				regwrite <= '0';
 
 				next_state <= S2;
-		end if;
-		if present_state = S3 then 
+			when S3 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -102,18 +101,15 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				if op = "0000" then 
-					--next_state <= R_type;
-					present_state <= R_type;
-				elsif	op = "1111" then
-					--next_state <= J_type;
-					present_state <= J_type;
-				else 
-					--next_state <= I_type;
-					present_state <= I_type;
+				
+				if op = "0000" then
+					next_state <= SR0;
+				elsif op = "1111" then
+					next_state <= SJ0;
+				else
+					next_state <= SI0;
 				end if;
-		end if;
-		if present_state = R_type then 
+			when SR0 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -128,10 +124,9 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= R_type1;
-				present_state <= R_type1;
-		end if;
-		if present_state = R_type1 then 
+
+				next_state <= SR1;
+			when SR1 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -146,10 +141,9 @@ begin
 				AluFunc <= "01";
 				regdest <= "01";
 				regwrite <= '1';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		if present_state = J_type then 
+
+				next_state <= S0;
+			when SJ0 =>
 				PCen <= '1';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -164,10 +158,9 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		if present_state = I_type then 
+
+				next_state <= S0;
+			when SI0 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -182,21 +175,17 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				if op (3 downto 2) = "00" and op(1 downto 0) /= "00" then 
-						--next_state <=SI1 ;
-						present_state <= SI1;
-				elsif op (3 downto 2) = "01" and op(1 downto 0) /= "11" then 
-						--next_state <=SI1 ;
-						present_state <= SI1;
-				elsif op = "0111" or op = "1000"  then 
-						--next_state <=SI2 ;
-						present_state <= SI2;
+				
+				if op (3 downto 2) = "00" and op(1 downto 0) /= "00" then
+					next_state <=SI10;
+				elsif op (3 downto 2) = "01" and op(1 downto 0) /= "11" then
+					next_state <=SI10;
+				elsif op = "0111" or op = "1000"  then
+					next_state <=SI20 ;
 				else
-					--next_state <= SI3;
-					present_state <= SI3;
+					next_state <= SI30;
 				end if;
-		end if;
-		if present_state = SI1 then 
+			when SI10 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -211,10 +200,9 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= SI11;
-				present_state <= SI11;
-		end if;
-		if present_state = SI11 then 
+
+				next_state <= SI11;
+			when SI11 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -226,13 +214,12 @@ begin
 				ALUop <= op;
 				ALUsrcB <= "10";
 				ALUsrcA <= "01";
-				AluFunc <= "01";
+				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '1';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		if present_state = SI2 then 
+
+				next_state <= S0;
+			when SI20 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -248,15 +235,12 @@ begin
 				regdest <= "00";
 				regwrite <= '0';
 				if op = "1000" then
-					--next_state <= SI21;
-					present_state <= SI21;
+					next_state <= SI210;
 				end if;
 				if op = "0111" then
-					--next_state <= SI22;
-					present_state <= SI22;
+					next_state <= SI220;
 				end if;
-		end if;
-		if present_state = SI21 then 
+			when SI210 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "01";
@@ -271,10 +255,9 @@ begin
 				AluFunc <= "00";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		if present_state = SI22 then 
+
+				next_state <= S0;
+			when SI220 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "01";
@@ -289,10 +272,9 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= SI221;
-				present_state <= SI221;
-		end if;
-		if present_state = SI221 then 
+
+				next_state <= SI221;
+			when SI221 =>
 				PCen <= '0';
 				PCwrite <= '0';
 				IorD <= "00";
@@ -307,16 +289,11 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '1';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		if present_state = SI3 then 
-		    --if cond = '1' then
-		    --  PCen <= '1';
-		    --else
-		    PCen <= '0';
-		    PCwrite <= '0';
-		    --end if;
+
+				next_state <= S0;
+			when SI30 =>
+				PCen <= '0';
+				PCwrite <= '0';
 				IorD <= "00";
 				memread <= '0';
 				memwrite <= '0';
@@ -329,16 +306,11 @@ begin
 				AluFunc <= "10";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= SI31;
-				present_state <= SI31;
-		end if;
-		if present_state = SI31 then 
-		  --if cond = '1' then
-	      --PCen <= '1';
-	    --else 
-	      PCen <= '0';
-	      PCwrite <= '1';
-	    --end if;
+
+				next_state <= SI31;
+			when SI31 =>
+				PCen <= '0';
+				PCwrite <= '1';
 				IorD <= "00";
 				memread <= '0';
 				memwrite <= '0';
@@ -351,12 +323,11 @@ begin
 				AluFunc <= "01";
 				regdest <= "00";
 				regwrite <= '0';
-				--next_state <= S0;
-				present_state <= S0;
-		end if;
-		--present_state <= next_state;
-		end if;
-	end process;
 
-end Behavioral;
+				next_state <= S0;
+			when others =>
+				next_state <= current_state;
+		end case;
+	end process;
+end architecture rtl;
 
