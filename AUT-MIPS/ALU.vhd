@@ -24,20 +24,20 @@ begin
 	process(A, B, OP, func)
 	begin
 		case OP is
-			when "0000" =>
-				if func = "000" then
+			when "0000" | "1111" =>
+				if func = "000" or func = "111" then
 					tResult <= A + B;
-				elsif func = "001" then
-					tResult <= A - B;
-				elsif func = "010" then
-					tResult <= (A AND B);
-				elsif func = "011" then
-					tResult <= (A OR B);
-				elsif func = "100" then
-					tResult <= (A XOR B);
-				elsif func = "101" then
-					tResult <= (A NOR B);
 				elsif func = "110" then
+					tResult <= A - B;
+				elsif func = "101" then
+					tResult <= (A AND B);
+				elsif func = "100" then
+					tResult <= (A OR B);
+				elsif func = "011" then
+					tResult <= (A XOR B);
+				elsif func = "010" then
+					tResult <= (A NOR B);
+				elsif func = "001" then
 					if A < B then
 						tResult <= (0 => '1', others => '0');
 					else
