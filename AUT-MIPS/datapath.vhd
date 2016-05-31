@@ -42,9 +42,9 @@ architecture structural of datapath is
 	end component;
 
 	component memory
-		port (address : in std_logic_vector;
-			data_in : in std_logic_vector;
-			data_out : out std_logic_vector;
+		port (address : in std_logic_vector (15 downto 0);
+			data_in : in std_logic_vector (15 downto 0);
+			data_out : out std_logic_vector (15 downto 0);
 			clk, read, write : in std_logic);
 	end component;
 
@@ -81,9 +81,11 @@ architecture structural of datapath is
 
 	signal tmp1,tmp2,tmp3,tmp4,tmp5, tmp6 :std_logic_vector(15 downto 0);
 
-	signal PCen, memread, memwrite, IRe, regWrite,cond,PCenOrCond, PCwrite:std_logic;
-	signal pcInput, pcOutput, outOfAlu, Aout, Bout, AluOutIn, memoryIn, AluA, AluB, writeData, writeRegister, Ain, Bin,memoryDataIn, IRIn, IROut, FuncOfAlu:std_logic_vector (15 downto 0);
-	signal IorD, regDst, memToReg, AluSrcA, AluSrcB, AluFunc,pcSrc:std_logic_vector (1 downto 0); 
+	signal PCen, memread, memwrite, IRe, regWrite,cond,PCenOrCond, PCwrite : std_logic;
+	signal pcInput, pcOutput, outOfAlu, Aout, Bout, AluOutIn, memoryIn : std_logic_vector (15 downto 0);
+	signal AluA, AluB, writeData, writeRegister, Ain, Bin,memoryDataIn : std_logic_vector (15 downto 0);
+	signal IRIn, IROut, FuncOfAlu : std_logic_vector (15 downto 0);
+	signal IorD, regDst, memToReg, AluSrcA, AluSrcB, AluFunc,pcSrc:std_logic_vector (1 downto 0);
 	signal op: std_logic_vector (3 downto 0);
 
 
@@ -95,25 +97,25 @@ begin
 	tmp5 <= "0000000000000" & IROut(2 downto 0);
 	PCenOrCond <= PCen or (cond and PCwrite);
 	
-	mem: memory port map (memoryIn, IRIn ,Bout, clk, memread , memwrite);
+	mem : memory port map (memoryIn, IRIn ,Bout, clk, memread , memwrite);
 	
-	m1: mux4 port map (pcOutput, outOfAlu, (others => '0'), (others => '0'), memoryIn, IorD);
-	m2: mux4 port map (outOfAlu, IRIn, (others => '0'), (others => '0'), writeData, memToReg);
-	m3: mux4 port map (tmp1, tmp2, (others => '0'), (others => '0'), writeRegister, regDst);
-	m4: mux4 port map (pcOutput, Aout, (others => '0'), (others => '0'), AluA, AluSrcA);
-	m5: mux4 port map (Bout, ('1', others => '0'), tmp4, (others => '0'), AluB, AluSrcB);
-	m6: mux4 port map (AluOutIn, outOfAlu, tmp3, (others => '0'), pcInput, pcSrc);
+	m1 : mux4 port map (pcOutput, outOfAlu, (others => '0'), (others => '0'), memoryIn, IorD);
+	m2 : mux4 port map (outOfAlu, IRIn, (others => '0'), (others => '0'), writeData, memToReg);
+	m3 : mux4 port map (tmp1, tmp2, (others => '0'), (others => '0'), writeRegister, regDst);
+	m4 : mux4 port map (pcOutput, Aout, (others => '0'), (others => '0'), AluA, AluSrcA);
+	m5 : mux4 port map (Bout, ('1', others => '0'), tmp4, (others => '0'), AluB, AluSrcB);
+	m6 : mux4 port map (AluOutIn, outOfAlu, tmp3, (others => '0'), pcInput, pcSrc);
 	
-	IR: register_N port map ('0' ,clk, IRe, IRIn, IROut);
-	pc: register_N port map ('0' ,clk, PCenOrCond, pcInput, pcOutput);
-	A: register_N port map ('0' ,clk, '1', Ain, Aout);
-	B: register_N port map ('0' ,clk, '1', Bin, Bout);
-	ALUOUT: register_N port map ('0' ,clk, '1', AluOutIn, outOfAlu);
+	IR : register_N port map ('0' ,clk, IRe, IRIn, IROut);
+	pc : register_N port map ('0' ,clk, PCenOrCond, pcInput, pcOutput);
+	A : register_N port map ('0' ,clk, '1', Ain, Aout);
+	B : register_N port map ('0' ,clk, '1', Bin, Bout);
+	ALUOUT : register_N port map ('0' ,clk, '1', AluOutIn, outOfAlu);
 	
-	controlUnit: control port map (clk, cond, IROut(15 downto 12), PCen,PCwrite, IorD, memread, memwrite, memtoreg, IRe, PCsrc, op, ALUsrcB, ALUsrcA, AluFunc, regdst, regwrite);
+	cu : control port map (clk, cond, IROut(15 downto 12), PCen,PCwrite, IorD, memread, memwrite, memtoreg, IRe, PCsrc, op, ALUsrcB, ALUsrcA, AluFunc, regdst, regwrite);
 	
-	registerFile: regfile port map (IROut(11 downto 9), IROut(8 downto 6), writeRegister(2 downto 0), writeData, regWrite, clk, Ain,Bin);
+	registerFile : regfile port map (IROut(11 downto 9), IROut(8 downto 6), writeRegister(2 downto 0), writeData, regWrite, clk, Ain,Bin);
 	mux7foralufunc:	mux4 port map ((others => '0'), tmp5, (others => '0'), (others => '0'), FuncOfAlu, AluFunc);
-	ALU000: ALU port map (AluA, AluB, op, FuncOfAlu(2 downto 0), AluOutIn, cond);
+	au : ALU port map (AluA, AluB, op, FuncOfAlu(2 downto 0), AluOutIn, cond);
 
 end architecture;
