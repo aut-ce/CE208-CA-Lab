@@ -9,35 +9,30 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity memory is
-	port (address : in std_logic_vector;
-		data_in : in std_logic_vector;
-		data_out : out std_logic_vector;
+	generic (N : integer := 16;
+		M : integer := 16);
+	port (address : in std_logic_vector (N - 1 downto 0);
+		data_in : in std_logic_vector (M - 1 downto 0);
+		data_out : out std_logic_vector (M - 1 downto 0);
 		clk, read, write : in std_logic);
-end entity memory;
+end entity;
 
 architecture behavioral of memory is
-	type mem is array (natural range <>, natural range <>) of std_logic;
+	type mem is array (natural range <>) of std_logic_vector (M - 1 downto 0);
 begin
 	process (clk)
-		constant memsize : integer := 2 ** address'length;
-		variable memory : mem (0 to memsize - 1, data_in'range) := (
-			"0011000000000010",
-			others => "0000000000000000"
+		constant memsize : integer := 2 ** N;
+		variable memory : mem (0 to memsize - 1) := (
+			0 => "0011000000000010"
 		);
 	begin
 		if  clk'event and clk = '1' then
-			if read = '1' then -- Readiing :)
-				for i in data_out'range loop
-					data_out(i) <= memory (to_integer(unsigned(address)), i);
-				end loop;
+			if read = '1' then -- Reading :)
+					data_out <= memory(to_integer(unsigned(address)));
 			elsif write = '1' then -- Writing :)
-				for i in data_in'range loop
-					memory (to_integer(unsigned(address)), i) := data_in (i);
-				end loop;
+				memory(to_integer(unsigned(address))) := data_in;
 			else
-				for i in data_out'range loop
-					data_out(i) <= '0';
-				end loop;
+				data_out <= (others => '0');
 			end if;
 		end if;
 	end process;
