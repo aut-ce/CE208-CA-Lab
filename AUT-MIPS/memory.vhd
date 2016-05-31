@@ -22,6 +22,15 @@ begin
 		constant memsize : integer := 2 ** 16;
 		variable memory : mem (0 to memsize - 1) := (
 			"0011000000000010",
+			"0011001001000010",
+			"1111000001010111",
+			"1111000001011110",
+			"1111000001100101",
+			"1111000001101100",
+			"1111000001110011",
+			"1111000001111010",
+			"0111000001000011",
+			"1000000001001100",
 			others => "0000000000000000"
 		);
 	begin
@@ -30,8 +39,6 @@ begin
 				data_out <= memory(to_integer(unsigned(address)));
 			elsif write = '1' then -- Writing :)
 				memory(to_integer(unsigned(address))) := data_in;
-			else
-				data_out <= (others => '0');
 			end if;
 		end if;
 	end process;
