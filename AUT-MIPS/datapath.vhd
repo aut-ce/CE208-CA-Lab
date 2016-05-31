@@ -105,12 +105,12 @@ begin
 	m4 : mux4 port map (pcOutput, Aout, (others => '0'), (others => '0'), AluA, AluSrcA);
 	m5 : mux4 port map (Bout, "0000000000000001", tmp4, (others => '0'), AluB, AluSrcB);
 	m6 : mux4 port map (AluOutIn, outOfAlu, tmp3, (others => '0'), pcInput, pcSrc);
+	outOfAlu <= AluOutIn;
 	
 	IR : register_N port map ('0' ,clk, IRe, IRIn, IROut);
 	pc : register_N port map ('0' ,clk, PCenOrCond, pcInput, pcOutput);
 	A : register_N port map ('0' ,clk, '1', Ain, Aout);
 	B : register_N port map ('0' ,clk, '1', Bin, Bout);
-	ALUOUT : register_N port map ('0' ,clk, '1', AluOutIn, outOfAlu);
 	
 	cu : control port map (clk, cond, IROut(15 downto 12), PCen,PCwrite, IorD, memread, memwrite, memtoreg, IRe, PCsrc, op, ALUsrcB, ALUsrcA, AluFunc, regdst, regwrite);
 	
