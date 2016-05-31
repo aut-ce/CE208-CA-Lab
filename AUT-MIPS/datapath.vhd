@@ -97,7 +97,7 @@ begin
 	tmp5 <= "0000000000000" & IROut(2 downto 0);
 	PCenOrCond <= PCen or (cond and PCwrite);
 	
-	mem : memory port map (memoryIn, IRIn ,Bout, clk, memread , memwrite);
+	mem : memory port map (memoryIn, Bout, IRIn, clk, memread, memwrite);
 	
 	m1 : mux4 port map (pcOutput, outOfAlu, (others => '0'), (others => '0'), memoryIn, IorD);
 	m2 : mux4 port map (outOfAlu, IRIn, (others => '0'), (others => '0'), writeData, memToReg);
