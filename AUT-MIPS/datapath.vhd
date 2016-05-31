@@ -95,13 +95,13 @@ begin
 	tmp5 <= "0000000000000" & IROut(2 downto 0);
 	PCenOrCond <= PCen or (cond and PCwrite);
 	
-	mem: memory port map (IRIn, memoryIn ,Bout, clk, memread , memwrite);
+	mem: memory port map (memoryIn, IRIn ,Bout, clk, memread , memwrite);
 	
 	m1: mux4 port map (pcOutput, outOfAlu, (others => '0'), (others => '0'), memoryIn, IorD);
 	m2: mux4 port map (outOfAlu, IRIn, (others => '0'), (others => '0'), writeData, memToReg);
 	m3: mux4 port map (tmp1, tmp2, (others => '0'), (others => '0'), writeRegister, regDst);
 	m4: mux4 port map (pcOutput, Aout, (others => '0'), (others => '0'), AluA, AluSrcA);
-	m5: mux4 port map (Bout, (0 => '1'), tmp4, (others => '0'), AluB, AluSrcB);
+	m5: mux4 port map (Bout, ('1', others => '0'), tmp4, (others => '0'), AluB, AluSrcB);
 	m6: mux4 port map (AluOutIn, outOfAlu, tmp3, (others => '0'), pcInput, pcSrc);
 	
 	IR: register_N port map ('0' ,clk, IRe, IRIn, IROut);
