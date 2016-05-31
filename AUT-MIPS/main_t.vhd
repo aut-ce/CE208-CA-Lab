@@ -19,7 +19,7 @@ architecture rtl of main_t is
 
 	signal clk : std_logic := '0';
 begin
-	clk <= not clk after 5 ns;
+	clk <= not clk after 50 ns;
 
 	m : datapath port map (clk);
 end architecture;
