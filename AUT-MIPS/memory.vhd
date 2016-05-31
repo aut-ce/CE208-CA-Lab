@@ -20,14 +20,17 @@ architecture behavioral of memory is
 begin
 	process (clk)
 		constant memsize : integer := 2 ** address'length;
-		variable memory : mem (0 to memsize - 1, data_in'range);
+		variable memory : mem (0 to memsize - 1, data_in'range) := (
+			"0011000000000010",
+			others => "0000000000000000"
+		);
 	begin
 		if  clk'event and clk = '1' then
-			if read = '1' and write = '0' then -- Readiing :)
+			if read = '1' then -- Readiing :)
 				for i in data_out'range loop
 					data_out(i) <= memory (to_integer(unsigned(address)), i);
 				end loop;
-			elsif read = '0' and write = '1' then -- Writing :)
+			elsif write = '1' then -- Writing :)
 				for i in data_in'range loop
 					memory (to_integer(unsigned(address)), i) := data_in (i);
 				end loop;
