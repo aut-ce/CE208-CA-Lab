@@ -52,7 +52,7 @@ begin
 				memtoreg <= "00";
 				IRe <= '0';
 				PCscr <= "01";
-				ALUop <= "0000";
+				ALUop <= "1111";
 				ALUsrcB <= "01";
 				ALUsrcA <= "00";
 				AluFunc <= "00";
@@ -70,7 +70,7 @@ begin
 				memtoreg <= "00";
 				IRe <= '1';
 				PCscr <= "00";
-				ALUop <= "0000";
+				ALUop <= "1111";
 				ALUsrcB <= "01";
 				ALUsrcA <= "00";
 				AluFunc <= "00";
@@ -87,7 +87,7 @@ begin
 				memtoreg <= "00";
 				IRe <= '0';
 				PCscr <= "00";
-				ALUop <= "0000";
+				ALUop <= "1111";
 				ALUsrcB <= "01";
 				ALUsrcA <= "00";
 				AluFunc <= "00";
@@ -104,7 +104,7 @@ begin
 				memtoreg <= "00";
 				IRe <= '0';
 				PCscr <= "01";
-				ALUop <= "0000";
+				ALUop <= "1111";
 				ALUsrcB <= "01";
 				ALUsrcA <= "00";
 				AluFunc <= "01";
