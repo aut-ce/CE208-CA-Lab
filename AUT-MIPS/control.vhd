@@ -283,6 +283,43 @@ begin
 				regwrite <= '1';
 
 				next_state <= S0;
+			when SI30 =>		
+				PCen <= '0';		
+				PCwrite <= '0';		
+				IorD <= "00";		
+				memread <= '0';		
+				memwrite <= '0';		
+				memtoreg <= "00";		
+				IRe <= '0';		
+				PCscr <= "10";		
+				ALUop <= op;		
+				ALUsrcB <= "10";		
+				ALUsrcA <= "00";		
+				AluFunc <= "10";		
+				regdest <= "00";		
+				regwrite <= '0';		
+				if cond = '1' then	
+					next_state <= SI31;		
+				else
+					next_state <= S0;
+				end if;
+			when SI31 =>		
+				PCen <= '0';		
+				PCwrite <= '1';		
+				IorD <= "00";		
+				memread <= '0';		
+				memwrite <= '0';		
+				memtoreg <= "00";		
+				IRe <= '0';		
+				PCscr <= "00";		
+				ALUop <= op;		
+				ALUsrcB <= "10";
+				ALUsrcA <= "00";
+				AluFunc <= "01";		
+				regdest <= "00";		
+				regwrite <= '0';		
+				
+				next_state <= S0;	
 			when others =>
 				next_state <= current_state;
 		end case;
